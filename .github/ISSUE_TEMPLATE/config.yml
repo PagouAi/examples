@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://developer.pagou.ai/
+    about: Read the official Pagou API v2 documentation.
+  - name: Security report
+    url: https://github.com/PagouAi/examples/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue for security reports.

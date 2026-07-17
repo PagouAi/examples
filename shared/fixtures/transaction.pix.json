@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-18a7-7de0-9a43-69b7cf261201",
+  "data": {
+    "id": "018f1f2e-7b42-7c9a-8d3e-1a2b3c4d5e6f",
+    "status": "pending",
+    "method": "pix",
+    "amount": 1500,
+    "base_price": 1500,
+    "currency": "BRL",
+    "external_ref": "order_1001",
+    "pix": {
+      "qr_code": "000201010212_SYNTHETIC_QR_CODE_FOR_TESTS_ONLY",
+      "expiration_date": "2026-03-16T14:15:00.000Z",
+      "receipt_url": null
+    },
+    "created_at": "2026-03-16T14:00:00.000Z",
+    "updated_at": "2026-03-16T14:00:00.000Z",
+    "paid_at": null
+  }
+}

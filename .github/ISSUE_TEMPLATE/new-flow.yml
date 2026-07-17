@@ -1,0 +1,49 @@
+name: "New flow"
+description: "Propose adding a new flow to the coverage matrix."
+title: "[new-flow] <flow name>"
+labels: ["enhancement", "new-flow"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to propose a new flow row for the coverage matrix. A flow must map to operations that
+        exist in the OpenAPI snapshot.
+  - type: input
+    id: flow
+    attributes:
+      label: Flow name
+      placeholder: "Refund reconciliation"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What the flow demonstrates
+    validations:
+      required: true
+  - type: textarea
+    id: operations
+    attributes:
+      label: OpenAPI operations involved
+      description: "List the operationId / method / path for each operation used."
+      placeholder: |
+        - putTransactionsByIdRefund — PUT /v2/transactions/{id}/refund
+        - getTransactionsById — GET /v2/transactions/{id}
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: Related documentation
+      description: "Links to the matching public doc pages, if any."
+    validations:
+      required: false
+  - type: checkboxes
+    id: contract
+    attributes:
+      label: Contract
+      options:
+        - label: All operations exist in shared/contracts/openapi-v2.json.
+          required: true
+        - label: This flow is not framework-specific.
+          required: true

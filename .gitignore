@@ -1,0 +1,51 @@
+# Environment / secrets — never commit real credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Node / TypeScript
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# PHP
+/vendor/
+composer.lock
+
+# Java
+target/
+*.class
+.gradle/
+
+# .NET
+bin/
+obj/
+*.user
+
+# Go
+/go/**/bin/
+
+# Ruby
+/.bundle/
+/ruby/**/vendor/bundle/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

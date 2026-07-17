@@ -1,0 +1,85 @@
+name: "Broken example"
+description: "An example does not build, run, or behaves incorrectly."
+title: "[broken] <language>/<flow>: <short summary>"
+labels: ["bug", "broken-example"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please do not include real credentials or customer data.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - TypeScript
+        - Python
+        - PHP
+        - Java
+        - .NET
+        - Go
+        - Ruby
+    validations:
+      required: true
+  - type: dropdown
+    id: flow
+    attributes:
+      label: Flow
+      options:
+        - Payments
+        - Checkout links
+        - Customers & subscriptions
+        - Transfers (Pix Out)
+        - Webhooks
+    validations:
+      required: true
+  - type: input
+    id: path
+    attributes:
+      label: File or path
+      placeholder: "typescript/payments/create-pix.ts"
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: "Include the error output. Redact tokens and sensitive data."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. cd typescript/payments
+        2. cp .env.example .env and set SANDBOX token
+        3. run ...
+    validations:
+      required: true
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime version
+      placeholder: "node 22.4.0"
+    validations:
+      required: false
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - label: I am running against the sandbox (https://api.sandbox.pagou.ai)
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: This report contains no real credentials or customer data.
+          required: true

@@ -1,0 +1,54 @@
+{
+  "$schema": "./used-operations.schema.json",
+  "description": "Manifest of Pagou API v2 operations exercised by the examples. Validated against openapi-v2.json by the contract check. This is a seed stub; operations are marked used=false until an example exercises them.",
+  "openapi": {
+    "source": "openapi-v2.json",
+    "title": "Pagou API - v2",
+    "version": "2.0.0"
+  },
+  "flows": {
+    "payments": {
+      "operations": [
+        { "operationId": "postTransactions", "method": "POST", "path": "/v2/transactions", "used": false },
+        { "operationId": "getTransactions", "method": "GET", "path": "/v2/transactions", "used": false },
+        { "operationId": "getTransactionsById", "method": "GET", "path": "/v2/transactions/{id}", "used": false },
+        { "operationId": "putTransactionsById", "method": "PUT", "path": "/v2/transactions/{id}", "used": false },
+        { "operationId": "putTransactionsByIdRefund", "method": "PUT", "path": "/v2/transactions/{id}/refund", "used": false },
+        { "operationId": "putTransactionsByIdDelivery", "method": "PUT", "path": "/v2/transactions/{id}/delivery", "used": false }
+      ]
+    },
+    "checkout-links": {
+      "operations": [
+        { "operationId": "postCheckoutLinks", "method": "POST", "path": "/v2/checkout-links", "used": false }
+      ]
+    },
+    "subscriptions": {
+      "operations": [
+        { "operationId": "postCustomers", "method": "POST", "path": "/v2/customers", "used": false },
+        { "operationId": "getCustomers", "method": "GET", "path": "/v2/customers", "used": false },
+        { "operationId": "getCustomersById", "method": "GET", "path": "/v2/customers/{id}", "used": false },
+        { "operationId": "postSubscriptions", "method": "POST", "path": "/v2/subscriptions", "used": false },
+        { "operationId": "getSubscriptions", "method": "GET", "path": "/v2/subscriptions", "used": false },
+        { "operationId": "getSubscriptionsById", "method": "GET", "path": "/v2/subscriptions/{id}", "used": false },
+        { "operationId": "patchSubscriptionsById", "method": "PATCH", "path": "/v2/subscriptions/{id}", "used": false },
+        { "operationId": "postSubscriptionsByIdCancel", "method": "POST", "path": "/v2/subscriptions/{id}/cancel", "used": false }
+      ]
+    },
+    "transfers": {
+      "operations": [
+        { "operationId": "postTransfers", "method": "POST", "path": "/v2/transfers", "used": false },
+        { "operationId": "getTransfers", "method": "GET", "path": "/v2/transfers", "used": false },
+        { "operationId": "getTransfersById", "method": "GET", "path": "/v2/transfers/{id}", "used": false },
+        { "operationId": "postTransfersByIdCancel", "method": "POST", "path": "/v2/transfers/{id}/cancel", "used": false }
+      ]
+    },
+    "webhooks": {
+      "description": "Webhook envelope families the handlers accept. Delivery is inbound, so there is no OpenAPI operation to reference.",
+      "envelopes": [
+        { "family": "transactions", "match": { "event": "transaction" }, "discriminator": "data.event_type", "used": false },
+        { "family": "subscriptions", "match": { "event": "subscription" }, "discriminator": "data.event_type", "used": false },
+        { "family": "transfers", "match": { "type": "*" }, "discriminator": "data.object", "used": false }
+      ]
+    }
+  }
+}

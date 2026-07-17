@@ -1,0 +1,23 @@
+# Code owners for PagouAi/examples
+# These are placeholder team handles — replace with the real GitHub team slugs.
+# Order matters: the last matching pattern takes precedence.
+
+# Default owners for everything in the repository.
+*                       @PagouAi/developer-experience
+
+# Contracts and shared fixtures are owned by the platform/API team.
+/shared/contracts/      @PagouAi/platform-api
+/shared/fixtures/       @PagouAi/platform-api
+
+# Governance and CI configuration.
+/.github/               @PagouAi/developer-experience
+/docs/                  @PagouAi/developer-experience
+
+# Language examples default to Developer Experience; add per-language owners as they stabilize.
+/typescript/            @PagouAi/developer-experience
+/python/                @PagouAi/developer-experience
+/php/                   @PagouAi/developer-experience
+/java/                  @PagouAi/developer-experience
+/dotnet/                @PagouAi/developer-experience
+/go/                    @PagouAi/developer-experience
+/ruby/                  @PagouAi/developer-experience

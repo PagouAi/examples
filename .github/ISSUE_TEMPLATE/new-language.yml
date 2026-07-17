@@ -1,0 +1,49 @@
+name: "New language"
+description: "Propose adding a new language to the examples."
+title: "[new-language] <language>"
+labels: ["enhancement", "new-language"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to propose a new language directory. New languages must mirror the same conceptual
+        structure and flow set as the existing ones.
+  - type: input
+    id: language
+    attributes:
+      label: Language and runtime
+      placeholder: "Kotlin (JVM 21)"
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this language
+      description: "Who asks for it and how widely is it used with the Pagou API?"
+    validations:
+      required: true
+  - type: input
+    id: http-client
+    attributes:
+      label: Proposed HTTP client
+      description: "Idiomatic, few dependencies."
+      placeholder: "standard library / ktor"
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Initial flow scope
+      description: "Which flows do you plan to implement first?"
+      placeholder: "Payments (Pix + retrieve), Webhooks"
+    validations:
+      required: true
+  - type: checkboxes
+    id: parity
+    attributes:
+      label: Parity
+      options:
+        - label: I will follow the shared repository structure and flow matrix.
+          required: true
+        - label: I will add a coverage.json for the new language directory.
+          required: true

@@ -1,0 +1,65 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - github-actions
+
+  - package-ecosystem: npm
+    directory: "/typescript"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - typescript
+
+  - package-ecosystem: pip
+    directory: "/python"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - python
+
+  - package-ecosystem: composer
+    directory: "/php"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - php
+
+  - package-ecosystem: maven
+    directory: "/java"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - java
+
+  - package-ecosystem: nuget
+    directory: "/dotnet"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - dotnet
+
+  - package-ecosystem: gomod
+    directory: "/go"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - go
+
+  - package-ecosystem: bundler
+    directory: "/ruby"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - ruby
