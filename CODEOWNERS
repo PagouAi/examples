@@ -1,23 +1,23 @@
 # Code owners for PagouAi/examples
-# These are placeholder team handles — replace with the real GitHub team slugs.
+# Interim owner is @jhon2c until real GitHub teams exist; PAG-721 assigns per-language teams.
 # Order matters: the last matching pattern takes precedence.
 
 # Default owners for everything in the repository.
-*                       @PagouAi/developer-experience
+*                       @jhon2c
 
 # Contracts and shared fixtures are owned by the platform/API team.
-/shared/contracts/      @PagouAi/platform-api
-/shared/fixtures/       @PagouAi/platform-api
+/shared/contracts/      @jhon2c
+/shared/fixtures/       @jhon2c
 
 # Governance and CI configuration.
-/.github/               @PagouAi/developer-experience
-/docs/                  @PagouAi/developer-experience
+/.github/               @jhon2c
+/docs/                  @jhon2c
 
 # Language examples default to Developer Experience; add per-language owners as they stabilize.
-/typescript/            @PagouAi/developer-experience
-/python/                @PagouAi/developer-experience
-/php/                   @PagouAi/developer-experience
-/java/                  @PagouAi/developer-experience
-/dotnet/                @PagouAi/developer-experience
-/go/                    @PagouAi/developer-experience
-/ruby/                  @PagouAi/developer-experience
+/typescript/            @jhon2c
+/python/                @jhon2c
+/php/                   @jhon2c
+/java/                  @jhon2c
+/dotnet/                @jhon2c
+/go/                    @jhon2c
+/ruby/                  @jhon2c
