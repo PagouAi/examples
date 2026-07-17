@@ -1,0 +1,15 @@
+{
+  "id": "evt_sub_2001",
+  "event": "subscription",
+  "api_version": "v2",
+  "data": {
+    "id": "018f1f2e-7b48-7c9a-8d3e-1a2b3c4d5e76",
+    "event_type": "subscription.renewed",
+    "customerId": "018f1f2e-7b47-7c9a-8d3e-1a2b3c4d5e75",
+    "status": "active",
+    "amount": 4990,
+    "currency": "BRL",
+    "currentPeriodStart": "2026-04-16T14:00:00.000Z",
+    "currentPeriodEnd": "2026-05-16T14:00:00.000Z"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-d8bb-7de0-9a43-69b7cf26120c",
+  "data": {
+    "id": "018f1f2e-7b48-7c9a-8d3e-1a2b3c4d5e76",
+    "customerId": "018f1f2e-7b47-7c9a-8d3e-1a2b3c4d5e75",
+    "status": "canceled",
+    "interval": "month",
+    "intervalCount": 1,
+    "amount": 4990,
+    "currency": "BRL",
+    "trialEnd": null,
+    "currentPeriodStart": "2026-03-16T14:00:00.000Z",
+    "currentPeriodEnd": "2026-04-16T14:00:00.000Z",
+    "cancelAtPeriodEnd": false,
+    "canceledAt": "2026-03-20T10:00:00.000Z",
+    "failurePolicy": "retry_then_cancel",
+    "retryOffsetsDays": [3, 5, 7],
+    "cancellationReason": "user_requested",
+    "customerEmail": "buyer@example.com",
+    "cardLast4": "4242",
+    "metadata": {},
+    "products": [
+      { "name": "Pro plan", "price": 4990, "quantity": 1 }
+    ],
+    "transactions": [],
+    "createdAt": "2026-03-16T14:00:00.000Z",
+    "updatedAt": "2026-03-20T10:00:00.000Z"
+  }
+}

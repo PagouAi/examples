@@ -1,0 +1,31 @@
+{
+  "description": "Index of synthetic fixtures shared by the examples, tests and the mock server. All data is fabricated.",
+  "fixtures": {
+    "payments": {
+      "transaction.pix": "transaction.pix.json",
+      "transaction.voucher": "transaction.voucher.json",
+      "transaction.credit_card": "transaction.credit_card.json",
+      "transaction.refunded": "transaction.refunded.json",
+      "transaction.list": "transaction.list.json"
+    },
+    "checkout-links": {
+      "checkout-link": "checkout-link.json"
+    },
+    "subscriptions": {
+      "customer": "customer.json",
+      "customer.list": "customer.list.json",
+      "subscription": "subscription.json",
+      "subscription.canceled": "subscription.canceled.json"
+    },
+    "transfers": {
+      "transfer": "transfer.json",
+      "transfer.settled": "transfer.settled.json",
+      "transfer.list": "transfer.list.json"
+    },
+    "webhooks": {
+      "webhook.transaction": "webhook.transaction.json",
+      "webhook.subscription": "webhook.subscription.json",
+      "webhook.transfer": "webhook.transfer.json"
+    }
+  }
+}

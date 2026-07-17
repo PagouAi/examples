@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-e9cc-7de0-9a43-69b7cf26120d",
+  "data": {
+    "url": "https://checkout.example/link/SYNTHETIC_PUBLIC_ID_FOR_TESTS_ONLY"
+  }
+}

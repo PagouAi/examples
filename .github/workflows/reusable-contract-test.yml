@@ -1,0 +1,47 @@
+name: Contract test
+
+# Reusable contract test. Spins up the mock server and validates its responses
+# against the OpenAPI v2 response schemas.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-test:
+    name: Mock server contract test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Boot the mock server
+        run: |
+          PORT=4010 node shared/mock-server/server.mjs &
+          echo "MOCK_PID=$!" >> "$GITHUB_ENV"
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:4010/__mock/health >/dev/null; then
+              echo "mock server is up after ${i} attempt(s)"; exit 0
+            fi
+            sleep 0.5
+          done
+          echo "mock server did not start"; exit 1
+
+      - name: Run contract tests
+        working-directory: shared/mock-server
+        # Unquoted so the shell expands the glob to real paths (portable across Node versions).
+        run: node --test test/*.test.mjs
+
+      - name: Smoke the running server (offline flows)
+        env:
+          PAGOU_BASE_URL: http://localhost:4010
+          PAGOU_API_KEY: sk_test_SYNTHETIC
+        run: node shared/smoke/smoke.mjs all
+
+      - name: Stop the mock server
+        if: always()
+        run: kill "${MOCK_PID}" 2>/dev/null || true

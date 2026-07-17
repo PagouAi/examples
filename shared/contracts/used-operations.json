@@ -9,45 +9,179 @@
   "flows": {
     "payments": {
       "operations": [
-        { "operationId": "postTransactions", "method": "POST", "path": "/v2/transactions", "used": false },
-        { "operationId": "getTransactions", "method": "GET", "path": "/v2/transactions", "used": false },
-        { "operationId": "getTransactionsById", "method": "GET", "path": "/v2/transactions/{id}", "used": false },
-        { "operationId": "putTransactionsById", "method": "PUT", "path": "/v2/transactions/{id}", "used": false },
-        { "operationId": "putTransactionsByIdRefund", "method": "PUT", "path": "/v2/transactions/{id}/refund", "used": false },
-        { "operationId": "putTransactionsByIdDelivery", "method": "PUT", "path": "/v2/transactions/{id}/delivery", "used": false }
+        {
+          "operationId": "getTransactions",
+          "method": "GET",
+          "path": "/v2/transactions",
+          "used": false,
+          "fields": ["next_cursor", "prev_cursor", "total"]
+        },
+        {
+          "operationId": "postTransactions",
+          "method": "POST",
+          "path": "/v2/transactions",
+          "used": false,
+          "fields": [
+            "amount",
+            "method",
+            "currency",
+            "external_ref",
+            "token",
+            "buyer.document.type",
+            "data.status",
+            "data.pix.qr_code",
+            "data.next_action.type"
+          ]
+        },
+        {
+          "operationId": "getTransactionsById",
+          "method": "GET",
+          "path": "/v2/transactions/{id}",
+          "used": false,
+          "fields": ["data.status", "data.paid_at", "data.refunded_amount"]
+        },
+        {
+          "operationId": "putTransactionsById",
+          "method": "PUT",
+          "path": "/v2/transactions/{id}",
+          "used": false
+        },
+        {
+          "operationId": "putTransactionsByIdRefund",
+          "method": "PUT",
+          "path": "/v2/transactions/{id}/refund",
+          "used": false,
+          "fields": ["amount", "data.amount_refunded", "data.remaining_balance", "data.is_full_refund"]
+        },
+        {
+          "operationId": "putTransactionsByIdDelivery",
+          "method": "PUT",
+          "path": "/v2/transactions/{id}/delivery",
+          "used": false
+        }
       ]
     },
     "checkout-links": {
       "operations": [
-        { "operationId": "postCheckoutLinks", "method": "POST", "path": "/v2/checkout-links", "used": false }
+        {
+          "operationId": "postCheckoutLinks",
+          "method": "POST",
+          "path": "/v2/checkout-links",
+          "used": false,
+          "fields": ["amount", "currency", "title", "data.url"]
+        }
       ]
     },
     "subscriptions": {
       "operations": [
-        { "operationId": "postCustomers", "method": "POST", "path": "/v2/customers", "used": false },
-        { "operationId": "getCustomers", "method": "GET", "path": "/v2/customers", "used": false },
-        { "operationId": "getCustomersById", "method": "GET", "path": "/v2/customers/{id}", "used": false },
-        { "operationId": "postSubscriptions", "method": "POST", "path": "/v2/subscriptions", "used": false },
-        { "operationId": "getSubscriptions", "method": "GET", "path": "/v2/subscriptions", "used": false },
-        { "operationId": "getSubscriptionsById", "method": "GET", "path": "/v2/subscriptions/{id}", "used": false },
-        { "operationId": "patchSubscriptionsById", "method": "PATCH", "path": "/v2/subscriptions/{id}", "used": false },
-        { "operationId": "postSubscriptionsByIdCancel", "method": "POST", "path": "/v2/subscriptions/{id}/cancel", "used": false }
+        {
+          "operationId": "getCustomers",
+          "method": "GET",
+          "path": "/v2/customers",
+          "used": false
+        },
+        {
+          "operationId": "postCustomers",
+          "method": "POST",
+          "path": "/v2/customers",
+          "used": false,
+          "fields": ["name", "email", "document", "data.id", "data.externalRef"]
+        },
+        {
+          "operationId": "getCustomersById",
+          "method": "GET",
+          "path": "/v2/customers/{id}",
+          "used": false
+        },
+        {
+          "operationId": "getSubscriptions",
+          "method": "GET",
+          "path": "/v2/subscriptions",
+          "used": false
+        },
+        {
+          "operationId": "postSubscriptions",
+          "method": "POST",
+          "path": "/v2/subscriptions",
+          "used": false,
+          "fields": ["data.status", "data.currentPeriodEnd", "data.cancelAtPeriodEnd"]
+        },
+        {
+          "operationId": "getSubscriptionsById",
+          "method": "GET",
+          "path": "/v2/subscriptions/{id}",
+          "used": false
+        },
+        {
+          "operationId": "patchSubscriptionsById",
+          "method": "PATCH",
+          "path": "/v2/subscriptions/{id}",
+          "used": false
+        },
+        {
+          "operationId": "postSubscriptionsByIdCancel",
+          "method": "POST",
+          "path": "/v2/subscriptions/{id}/cancel",
+          "used": false
+        }
       ]
     },
     "transfers": {
       "operations": [
-        { "operationId": "postTransfers", "method": "POST", "path": "/v2/transfers", "used": false },
-        { "operationId": "getTransfers", "method": "GET", "path": "/v2/transfers", "used": false },
-        { "operationId": "getTransfersById", "method": "GET", "path": "/v2/transfers/{id}", "used": false },
-        { "operationId": "postTransfersByIdCancel", "method": "POST", "path": "/v2/transfers/{id}/cancel", "used": false }
+        {
+          "operationId": "getTransfers",
+          "method": "GET",
+          "path": "/v2/transfers",
+          "used": false
+        },
+        {
+          "operationId": "postTransfers",
+          "method": "POST",
+          "path": "/v2/transfers",
+          "used": false,
+          "fields": ["pix_key_type", "pix_key_value", "amount", "data.status", "data.pix_key_type"]
+        },
+        {
+          "operationId": "getTransfersById",
+          "method": "GET",
+          "path": "/v2/transfers/{id}",
+          "used": false
+        },
+        {
+          "operationId": "postTransfersByIdCancel",
+          "method": "POST",
+          "path": "/v2/transfers/{id}/cancel",
+          "used": false
+        }
       ]
     },
     "webhooks": {
       "description": "Webhook envelope families the handlers accept. Delivery is inbound, so there is no OpenAPI operation to reference.",
       "envelopes": [
-        { "family": "transactions", "match": { "event": "transaction" }, "discriminator": "data.event_type", "used": false },
-        { "family": "subscriptions", "match": { "event": "subscription" }, "discriminator": "data.event_type", "used": false },
-        { "family": "transfers", "match": { "type": "*" }, "discriminator": "data.object", "used": false }
+        {
+          "family": "transactions",
+          "match": {
+            "event": "transaction"
+          },
+          "discriminator": "data.event_type",
+          "used": false
+        },
+        {
+          "family": "subscriptions",
+          "match": {
+            "event": "subscription"
+          },
+          "discriminator": "data.event_type",
+          "used": false
+        },
+        {
+          "family": "transfers",
+          "match": {
+            "type": "*"
+          },
+          "discriminator": "data.object",
+          "used": false
+        }
       ]
     }
   }

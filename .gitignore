@@ -49,3 +49,6 @@ obj/
 .idea/
 .vscode/
 *.swp
+
+# Generated CI reports
+coverage-matrix.generated.md
