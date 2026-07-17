@@ -1,0 +1,77 @@
+name: Language CI
+
+# Reusable per-language lint/build/test across a runtime version matrix
+# (minimum + current). The runner detects project manifests and skips languages
+# that have no examples yet.
+on:
+  workflow_call:
+    inputs:
+      language:
+        description: Language directory (typescript, python, php, java, dotnet, go, ruby)
+        required: true
+        type: string
+      versions:
+        description: JSON array of runtime versions to test (min + current)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ inputs.language }} (${{ matrix.version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(inputs.versions) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: inputs.language == 'typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Setup Python
+        if: inputs.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.version }}
+
+      - name: Setup PHP
+        if: inputs.language == 'php'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.version }}
+          tools: composer
+
+      - name: Setup Java
+        if: inputs.language == 'java'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.version }}
+
+      - name: Setup .NET
+        if: inputs.language == 'dotnet'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.version }}
+
+      - name: Setup Go
+        if: inputs.language == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.version }}
+
+      - name: Setup Ruby
+        if: inputs.language == 'ruby'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.version }}
+
+      - name: Lint, build and test
+        run: bash .github/scripts/language-ci.sh ${{ inputs.language }}

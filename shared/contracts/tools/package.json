@@ -1,0 +1,19 @@
+{
+  "name": "@pagouai/examples-contract-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generator and validator for the used-operations manifest against the OpenAPI v2 snapshot.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "generate-manifest": "./generate-manifest.mjs",
+    "contract-check": "./contract-check.mjs"
+  },
+  "scripts": {
+    "generate": "node generate-manifest.mjs",
+    "check": "node contract-check.mjs",
+    "check:manifest": "node generate-manifest.mjs --check"
+  }
+}

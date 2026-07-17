@@ -1,13 +1,15 @@
 {
+  "id": "evt_pay_1001",
   "event": "transaction",
+  "api_version": "v2",
   "data": {
-    "event_type": "transaction.paid",
     "id": "018f1f2e-7b42-7c9a-8d3e-1a2b3c4d5e6f",
-    "status": "paid",
+    "event_type": "transaction.paid",
+    "correlation_id": "order_1001",
     "method": "pix",
+    "status": "paid",
     "amount": 1500,
     "currency": "BRL",
-    "external_ref": "order_1001",
     "paid_at": "2026-03-16T14:03:12.000Z"
   }
 }

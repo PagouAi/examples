@@ -1,0 +1,33 @@
+name: Coverage matrix
+
+# Reusable coverage-matrix report. Aggregates each language dir's coverage.json
+# into a flow x language matrix, publishes it to the job summary and uploads it
+# as an artifact. Informational — never fails the build.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    name: Publish coverage matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build coverage report
+        env:
+          COVERAGE_REPORT_PATH: coverage-matrix.generated.md
+        run: node .github/scripts/coverage-report.mjs
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-matrix
+          path: coverage-matrix.generated.md
+          if-no-files-found: warn
