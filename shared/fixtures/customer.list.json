@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-b699-7de0-9a43-69b7cf26120a",
+  "metadata": {
+    "next_cursor": null,
+    "prev_cursor": null,
+    "total": 1
+  },
+  "data": [
+    {
+      "id": "018f1f2e-7b47-7c9a-8d3e-1a2b3c4d5e75",
+      "name": "Test Buyer",
+      "email": "buyer@example.com",
+      "phone": "+5511999990000",
+      "externalRef": "customer_5001"
+    }
+  ]
+}

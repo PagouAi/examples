@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-8366-7de0-9a43-69b7cf261207",
+  "data": {
+    "id": "018f1f2e-7b45-7c9a-8d3e-1a2b3c4d5e72",
+    "amount": "1200",
+    "fee": 50,
+    "type": "pix",
+    "pix_key": "receiver@example.com",
+    "pix_key_type": "EMAIL",
+    "status": "paid",
+    "description": "Payout for order_1001",
+    "external_ref": "payout_1001",
+    "processed_at": "2026-03-16T14:04:30.000Z",
+    "transferred_at": "2026-03-16T14:05:00.000Z",
+    "created_at": "2026-03-16T14:04:00.000Z",
+    "updated_at": "2026-03-16T14:05:00.000Z"
+  }
+}

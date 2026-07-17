@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-2c11-7de0-9a43-69b7cf261202",
+  "data": {
+    "id": "018f1f2e-7b44-7c9a-8d3e-1a2b3c4d5e71",
+    "status": "pending",
+    "method": "voucher",
+    "amount": 125000,
+    "currency": "BRL",
+    "external_ref": "order_3001",
+    "voucher": {
+      "barcode": "00190500954014481606906809350314337370000000100",
+      "digitable_line": "00190.50095 40144.816069 06809.350314 3 37370000000100",
+      "url": "https://pay.example/voucher/SYNTHETIC_ONLY",
+      "expiration_date": "2026-03-23T23:59:59.000Z",
+      "instructions": "Pay using the bank slip reference before the expiration date.",
+      "receipt_url": null
+    },
+    "created_at": "2026-03-16T14:00:00.000Z",
+    "updated_at": "2026-03-16T14:00:00.000Z",
+    "paid_at": null
+  }
+}

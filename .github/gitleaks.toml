@@ -1,0 +1,20 @@
+# gitleaks config for the public examples repo.
+# Extends the default ruleset and allowlists synthetic fixtures and placeholders.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic fixtures, env placeholders and documented example identifiers"
+paths = [
+  '''shared/fixtures/.*''',
+  '''.*\.env\.example$''',
+  '''.*README\.md$''',
+  '''.github/gitleaks.toml''',
+]
+regexes = [
+  '''(?i)synthetic''',
+  '''(?i)placeholder''',
+  '''(?i)example''',
+  '''pgct_[A-Za-z0-9]+''',
+  '''sk_test_SYNTHETIC[A-Za-z0-9]*''',
+]

@@ -1,0 +1,17 @@
+{
+  "name": "@pagouai/examples-mock-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zero-dependency mock server replaying the Pagou API v2 contract for example flows.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "pagou-mock-server": "./server.mjs"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

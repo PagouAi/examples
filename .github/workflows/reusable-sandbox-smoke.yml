@@ -1,0 +1,48 @@
+name: Sandbox smoke
+
+# Reusable sandbox smoke test for the core flows (PIX, retrieve, transfer,
+# webhook). Gated by the PAGOU_SANDBOX_API_KEY secret: without it the network
+# flows are skipped and only the offline webhook check runs.
+on:
+  workflow_call:
+    secrets:
+      PAGOU_SANDBOX_API_KEY:
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Sandbox smoke (PIX / retrieve / transfer / webhook)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Webhook routing (always, offline)
+        run: node shared/smoke/smoke.mjs webhook
+
+      - name: Report gate status
+        id: gate
+        env:
+          KEY: ${{ secrets.PAGOU_SANDBOX_API_KEY }}
+        run: |
+          if [ -n "$KEY" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "PAGOU_SANDBOX_API_KEY not set — skipping network smoke." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: PIX / retrieve / transfer (sandbox)
+        if: steps.gate.outputs.enabled == 'true'
+        env:
+          PAGOU_BASE_URL: https://api.sandbox.pagou.ai
+          PAGOU_API_KEY: ${{ secrets.PAGOU_SANDBOX_API_KEY }}
+        run: |
+          node shared/smoke/smoke.mjs pix
+          node shared/smoke/smoke.mjs transfer

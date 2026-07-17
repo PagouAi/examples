@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "requestId": "0190a2b4-3f22-7de0-9a43-69b7cf261203",
+  "data": {
+    "id": "018f1f2e-7b46-7c9a-8d3e-1a2b3c4d5e73",
+    "status": "three_ds_required",
+    "method": "credit_card",
+    "amount": 4990,
+    "currency": "BRL",
+    "external_ref": "order_4001",
+    "installments": 1,
+    "next_action": {
+      "type": "three_ds_challenge",
+      "challenge_session_id": "018f1f2e-7b46-7c9a-8d3e-1a2b3c4d5e74",
+      "client_secret": "SYNTHETIC_3DS_CLIENT_SECRET_FOR_TESTS_ONLY",
+      "expires_at": "2026-03-16T14:15:00.000Z"
+    },
+    "created_at": "2026-03-16T14:00:00.000Z",
+    "updated_at": "2026-03-16T14:00:00.000Z",
+    "paid_at": null
+  }
+}

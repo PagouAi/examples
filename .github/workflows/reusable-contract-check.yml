@@ -1,0 +1,26 @@
+name: Contract check
+
+# Reusable contract validator. Fails when the used-operations manifest or the
+# fields the examples use diverge from the OpenAPI v2 snapshot.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-check:
+    name: Validate used-operations vs OpenAPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Manifest is in sync with the snapshot
+        run: node shared/contracts/tools/generate-manifest.mjs --check
+
+      - name: Validate operations and fields
+        run: node shared/contracts/tools/contract-check.mjs

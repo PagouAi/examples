@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://developer.pagou.ai/schemas/used-operations.schema.json",
+  "title": "Used operations manifest",
+  "description": "Operations and webhook envelopes the examples exercise, validated against openapi-v2.json.",
+  "type": "object",
+  "required": ["openapi", "flows"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "description": { "type": "string" },
+    "openapi": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string" },
+        "title": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "flows": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["operationId", "method", "path", "used"],
+              "properties": {
+                "operationId": { "type": "string" },
+                "method": {
+                  "type": "string",
+                  "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+                },
+                "path": { "type": "string", "pattern": "^/" },
+                "used": { "type": "boolean" },
+                "fields": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Dotted field paths the examples read or send; each is checked against the contract schema."
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "envelopes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["family", "match", "discriminator", "used"],
+              "properties": {
+                "family": { "type": "string" },
+                "match": { "type": "object" },
+                "discriminator": { "type": "string" },
+                "used": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

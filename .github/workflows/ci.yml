@@ -1,0 +1,176 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Detect which parts of the repo changed so per-language jobs stay isolated.
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      shared: ${{ steps.filter.outputs.shared }}
+      workflows: ${{ steps.filter.outputs.workflows }}
+      any_language: ${{ steps.filter.outputs.any_language }}
+      typescript: ${{ steps.filter.outputs.typescript }}
+      python: ${{ steps.filter.outputs.python }}
+      php: ${{ steps.filter.outputs.php }}
+      java: ${{ steps.filter.outputs.java }}
+      dotnet: ${{ steps.filter.outputs.dotnet }}
+      go: ${{ steps.filter.outputs.go }}
+      ruby: ${{ steps.filter.outputs.ruby }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared: &shared
+              - 'shared/**'
+              - '.github/workflows/**'
+              - '.github/scripts/**'
+              - '.github/gitleaks.toml'
+            workflows:
+              - '.github/**'
+            typescript:
+              - 'typescript/**'
+              - *shared
+            python:
+              - 'python/**'
+              - *shared
+            php:
+              - 'php/**'
+              - *shared
+            java:
+              - 'java/**'
+              - *shared
+            dotnet:
+              - 'dotnet/**'
+              - *shared
+            go:
+              - 'go/**'
+              - *shared
+            ruby:
+              - 'ruby/**'
+              - *shared
+            any_language:
+              - 'typescript/**'
+              - 'python/**'
+              - 'php/**'
+              - 'java/**'
+              - 'dotnet/**'
+              - 'go/**'
+              - 'ruby/**'
+
+  # Security gate — always runs, blocks merge on credentials.
+  secret-scan:
+    uses: ./.github/workflows/reusable-secret-scan.yml
+
+  contract-check:
+    needs: changes
+    if: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.any_language == 'true' }}
+    uses: ./.github/workflows/reusable-contract-check.yml
+
+  contract-test:
+    needs: changes
+    if: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.any_language == 'true' }}
+    uses: ./.github/workflows/reusable-contract-test.yml
+
+  sandbox-smoke:
+    needs: changes
+    if: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.any_language == 'true' }}
+    uses: ./.github/workflows/reusable-sandbox-smoke.yml
+    secrets:
+      PAGOU_SANDBOX_API_KEY: ${{ secrets.PAGOU_SANDBOX_API_KEY }}
+
+  coverage:
+    needs: changes
+    if: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.any_language == 'true' }}
+    uses: ./.github/workflows/reusable-coverage.yml
+
+  # Per-language lint/build/test — each runs only when its dir (or shared) changed.
+  typescript:
+    needs: changes
+    if: ${{ needs.changes.outputs.typescript == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: typescript
+      versions: '["18", "22"]'
+
+  python:
+    needs: changes
+    if: ${{ needs.changes.outputs.python == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: python
+      versions: '["3.9", "3.13"]'
+
+  php:
+    needs: changes
+    if: ${{ needs.changes.outputs.php == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: php
+      versions: '["8.1", "8.3"]'
+
+  java:
+    needs: changes
+    if: ${{ needs.changes.outputs.java == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: java
+      versions: '["17", "21"]'
+
+  dotnet:
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: dotnet
+      versions: '["6.0.x", "8.0.x"]'
+
+  go:
+    needs: changes
+    if: ${{ needs.changes.outputs.go == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: go
+      versions: '["1.21", "1.23"]'
+
+  ruby:
+    needs: changes
+    if: ${{ needs.changes.outputs.ruby == 'true' }}
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: ruby
+      versions: '["3.1", "3.3"]'
+
+  # Single required status check: fails if any core gate failed.
+  ci-gate:
+    name: CI gate
+    needs: [secret-scan, contract-check, contract-test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify core gates passed
+        run: |
+          fail=0
+          for r in "secret-scan=${{ needs.secret-scan.result }}" \
+                   "contract-check=${{ needs.contract-check.result }}" \
+                   "contract-test=${{ needs.contract-test.result }}"; do
+            name="${r%%=*}"; res="${r#*=}"
+            echo "$name: $res"
+            case "$res" in success|skipped) ;; *) fail=1 ;; esac
+          done
+          [ "$fail" -eq 0 ] || { echo "A core gate failed."; exit 1; }
