@@ -106,7 +106,7 @@ jobs:
     uses: ./.github/workflows/reusable-language.yml
     with:
       language: typescript
-      versions: '["18", "22"]'
+      versions: '["20", "24"]'
 
   python:
     needs: changes

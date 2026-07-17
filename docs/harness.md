@@ -56,7 +56,7 @@ path filters so isolated changes only run the relevant jobs.
 
 | Language | Versions |
 | --- | --- |
-| TypeScript / Node | 18, 22 |
+| TypeScript / Node | 20, 24 |
 | Python | 3.9, 3.13 |
 | PHP | 8.1, 8.3 |
 | Java | 17, 21 |
