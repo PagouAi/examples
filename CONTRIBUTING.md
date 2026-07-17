@@ -69,7 +69,7 @@ Every contribution must honor these invariants:
   the backend.
 - All fixtures are synthetic.
 - Logs redact `Authorization`, tokens and sensitive payloads.
-- Only public UUID `identifier`s are used — never serial IDs or `local_id`.
+- Only the public UUID `identifier` returned by the API is used to reference resources.
 
 See [SECURITY.md](SECURITY.md) to report a vulnerability.
 

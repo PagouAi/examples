@@ -90,7 +90,7 @@ Estas regras são verificadas no CI e não são negociáveis:
 - Dados de cartão usam apenas o Payment Element / Elements → token `pgct_*`.
 - Todas as fixtures são sintéticas.
 - Logs ocultam `Authorization`, tokens e payloads sensíveis.
-- Apenas `identifier`s UUID públicos são usados — nunca IDs seriais ou `local_id`.
+- Apenas o `identifier` UUID público retornado pela API é usado para referenciar recursos.
 
 Consulte [SECURITY.md](SECURITY.md) para saber como reportar uma vulnerabilidade.
 
