@@ -1,0 +1,43 @@
+{
+  "name": "pagou-examples-typescript",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Runnable TypeScript/Node reference examples for the Pagou API v2 core flows.",
+  "type": "module",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "pay:pix": "tsx payments/raw/create-pix.ts",
+    "pay:pix:sdk": "tsx payments/sdk/create-pix.ts",
+    "pay:voucher": "tsx payments/raw/create-voucher.ts",
+    "pay:retrieve": "tsx payments/raw/retrieve.ts",
+    "pay:reconcile": "tsx payments/raw/reconcile.ts",
+    "pay:refund": "tsx payments/raw/refund.ts",
+    "pay:refund:sdk": "tsx payments/sdk/refund.ts",
+    "pay:list": "tsx payments/raw/list.ts",
+    "pay:list:sdk": "tsx payments/sdk/list.ts",
+    "pay:card:server": "tsx payments/card-element/server.ts",
+    "checkout:create": "tsx checkout-links/raw/create.ts",
+    "subs:demo": "tsx subscriptions/raw/lifecycle.ts",
+    "subs:demo:sdk": "tsx subscriptions/sdk/lifecycle.ts",
+    "transfers:demo": "tsx transfers/raw/lifecycle.ts",
+    "transfers:demo:sdk": "tsx transfers/sdk/lifecycle.ts",
+    "webhooks:server": "tsx webhooks/server.ts"
+  },
+  "dependencies": {
+    "@pagouai/api-sdk": "^0.2.9",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.8"
+  }
+}
