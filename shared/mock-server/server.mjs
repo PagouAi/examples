@@ -259,7 +259,11 @@ export function createMockServer() {
       }
     }
 
+    // Readiness probes (no auth): /__mock/health, /health and root.
     if (pathname.startsWith('/__mock/')) return handleControl(req, res, pathname, body);
+    if (req.method === 'GET' && (pathname === '/health' || pathname === '/')) {
+      return json(res, 200, { status: 'ok' });
+    }
 
     if (!isAuthorized(req)) {
       return json(res, 401, { error: 'UNAUTHORIZED', message: 'Missing or invalid credentials', status: 401 });

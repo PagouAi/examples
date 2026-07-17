@@ -38,14 +38,14 @@ Behaviours worth knowing:
 
 ## Control plane (non-contract, `/__mock/`)
 
-- `GET /__mock/health` — liveness (no auth).
+- `GET /__mock/health`, `GET /health`, `GET /` — liveness/readiness (no auth).
 - `POST /__mock/reset` — clears in-memory state.
 - `POST /__mock/webhook` — echoes a normalized webhook delivery envelope for handler tests.
 
 ## Test
 
 ```sh
-cd shared/mock-server && node --test "test/*.test.mjs"
+cd shared/mock-server && node --test test/*.test.mjs
 ```
 
 The test spins the server up on an ephemeral port and validates every response against the response

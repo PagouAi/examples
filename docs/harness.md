@@ -32,7 +32,7 @@ check fails — the example must be fixed or the snapshot deliberately refreshed
 
 ```sh
 node shared/mock-server/server.mjs                 # http://localhost:4010
-cd shared/mock-server && node --test "test/*.test.mjs"
+cd shared/mock-server && node --test test/*.test.mjs
 ```
 
 The contract test boots the server and validates every response against the OpenAPI response schema.
