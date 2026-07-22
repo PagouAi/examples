@@ -37,8 +37,8 @@ do_python() {
       any=1; echo "== python: $lang/$d =="; ( cd "$d"
         python -m pip install --upgrade pip >/dev/null
         [ -f requirements.txt ] && run python -m pip install -r requirements.txt
-        [ -f pyproject.toml ] && run python -m pip install -e . || true
-        if python -c "import ruff" 2>/dev/null; then run python -m ruff check .; fi
+        [ -f pyproject.toml ] && { run python -m pip install -e ".[dev]" || run python -m pip install -e . || true; }
+        if python -m ruff --version >/dev/null 2>&1; then run python -m ruff check .; fi
         run python -m pytest -q || { [ $? -eq 5 ] && echo "· no tests collected"; }; )
     done
   done

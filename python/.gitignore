@@ -1,0 +1,20 @@
+# Virtual environments
+.venv/
+venv/
+
+# Byte-compiled / packaging artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Test / coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Local environment
+.env
