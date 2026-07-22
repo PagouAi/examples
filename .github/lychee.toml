@@ -1,0 +1,21 @@
+# Link checker configuration (lychee).
+# Relative links to example dirs/files are checked strictly. Outbound docs links
+# are checked with retries; a few paths are excluded to avoid flaky failures.
+
+max_retries = 3
+retry_wait_time = 2
+timeout = 20
+accept = [200, 206, 429]
+
+# node_modules and vendored dependencies carry their own (often broken) links.
+exclude_path = ["node_modules", "vendor"]
+
+# The docs Examples area (developer.pagou.ai/examples/*) ships in the docs
+# monorepo; exclude it here so this repo does not fail before that deploy lands.
+exclude = [
+  "^https://developer\\.pagou\\.ai/examples",
+  "^https://api\\.sandbox\\.pagou\\.ai",
+  "^https://api\\.pagou\\.ai",
+  "mailto:",
+  "^https://www\\.npmjs\\.com",
+]

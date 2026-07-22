@@ -45,4 +45,5 @@ jobs:
           PAGOU_API_KEY: ${{ secrets.PAGOU_SANDBOX_API_KEY }}
         run: |
           node shared/smoke/smoke.mjs pix
+          node shared/smoke/smoke.mjs retrieve
           node shared/smoke/smoke.mjs transfer

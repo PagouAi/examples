@@ -42,8 +42,9 @@ function loadCoverage(lang) {
 
 function stateFor(coverage, flow) {
   if (!coverage) return 'planned';
-  const flows = coverage.flows || {};
-  return flows[flow] || 'planned';
+  const entry = (coverage.flows || {})[flow];
+  if (!entry) return 'planned';
+  return typeof entry === 'string' ? entry : entry.state || 'planned';
 }
 
 function render() {

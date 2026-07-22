@@ -59,6 +59,22 @@ The pull request template requires you to confirm this.
   `not-applicable`.
 - The docs rollout process consolidates those `coverage.json` files into the published matrix.
 
+## Contract-change gate
+
+The OpenAPI snapshot and `used-operations.json` under `shared/contracts/` are the contract every
+example is checked against. When a PR changes anything in `shared/contracts/`, it is a contract change
+and the affected examples must be reviewed before merge:
+
+1. Identify every operation whose method, path or fields changed.
+2. For each language that exercises an affected operation, re-run its build, lint and tests against the
+   new contract. The path-filtered CI runs each affected language automatically; the weekly
+   `full-ci` workflow re-runs all seven regardless.
+3. Update `coverage.json` states and the docs Examples area if behavior or scope shifted.
+4. Request review from a code owner of each affected language (see [`CODEOWNERS`](CODEOWNERS)).
+
+The pull request template carries this as a required **Contract change gate** checklist. Leave it
+unchecked only when `shared/contracts/` is untouched.
+
 ## Security checklist (enforced in CI)
 
 Every contribution must honor these invariants:
