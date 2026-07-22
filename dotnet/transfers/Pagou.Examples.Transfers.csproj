@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Pagou.Examples.Transfers</RootNamespace>
+    <AssemblyName>Pagou.Examples.Transfers</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../src/Pagou.Examples.Core/Pagou.Examples.Core.csproj" />
+  </ItemGroup>
+
+</Project>
