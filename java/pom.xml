@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ai.pagou.examples</groupId>
+  <artifactId>pagou-examples-java</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <name>Pagou API v2 — Java examples</name>
+  <description>Runnable Java reference examples for the Pagou API v2 core flows.</description>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jackson.version>2.17.2</jackson.version>
+    <junit.version>5.10.3</junit.version>
+    <exec.cleanupDaemonThreads>false</exec.cleanupDaemonThreads>
+  </properties>
+
+  <dependencies>
+    <!-- The only runtime dependency: JSON (de)serialization. The HTTP client is
+         java.net.http.HttpClient from the JDK — no third-party HTTP library. -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>pagou-examples-java</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+
+      <!-- Test coverage report. `mvn test` produces target/site/jacoco. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals><goal>prepare-agent</goal></goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals><goal>report</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- One named execution per flow, mirroring the TypeScript npm scripts.
+           Run a flow with, e.g.: mvn -q compile exec:java@pay-pix -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <cleanupDaemonThreads>false</cleanupDaemonThreads>
+        </configuration>
+        <executions>
+          <execution>
+            <id>pay-pix</id>
+            <configuration><mainClass>ai.pagou.examples.payments.CreatePix</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-voucher</id>
+            <configuration><mainClass>ai.pagou.examples.payments.CreateVoucher</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-card</id>
+            <configuration><mainClass>ai.pagou.examples.payments.CreateCard</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-retrieve</id>
+            <configuration><mainClass>ai.pagou.examples.payments.Retrieve</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-reconcile</id>
+            <configuration><mainClass>ai.pagou.examples.payments.ReconcileCli</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-refund</id>
+            <configuration><mainClass>ai.pagou.examples.payments.Refund</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-list</id>
+            <configuration><mainClass>ai.pagou.examples.payments.ListTransactions</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-sandbox-advance</id>
+            <configuration><mainClass>ai.pagou.examples.payments.SandboxAdvance</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>pay-card-server</id>
+            <configuration><mainClass>ai.pagou.examples.payments.CardElementServer</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>checkout-create</id>
+            <configuration><mainClass>ai.pagou.examples.checkoutlinks.CreateCheckoutLink</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>subs-demo</id>
+            <configuration><mainClass>ai.pagou.examples.subscriptions.SubscriptionLifecycle</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>transfers-demo</id>
+            <configuration><mainClass>ai.pagou.examples.transfers.TransferLifecycle</mainClass></configuration>
+          </execution>
+          <execution>
+            <id>webhooks-server</id>
+            <configuration><mainClass>ai.pagou.examples.webhooks.WebhookServer</mainClass></configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
