@@ -1,0 +1,10 @@
+# Maven build output
+target/
+
+# Local environment (never commit real credentials)
+.env
+
+# IDE
+*.iml
+.idea/
+.vscode/
