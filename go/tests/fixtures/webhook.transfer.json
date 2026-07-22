@@ -1,0 +1,16 @@
+{
+  "id": "evt_018f1f2e7b450002",
+  "type": "payout.transferred",
+  "api_version": "v2",
+  "data": {
+    "object": {
+      "id": "018f1f2e-7b45-7c9a-8d3e-1a2b3c4d5e72",
+      "status": "paid",
+      "type": "pix",
+      "amount": 5000,
+      "fee": 50,
+      "net_amount": 4950,
+      "transferred_at": "2026-03-16T14:06:00.000Z"
+    }
+  }
+}

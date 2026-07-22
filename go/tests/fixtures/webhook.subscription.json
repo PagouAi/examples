@@ -1,0 +1,15 @@
+{
+  "id": "120ebf7cc24835b5ea33ee617bf70cb91c3a4dcd7413afcb05f61c60d1c9de3d",
+  "event": "subscription",
+  "api_version": "v2",
+  "data": {
+    "id": "018f1f2e-7b47-7c9a-8d3e-1a2b3c4d5e74",
+    "event_type": "subscription.renewed",
+    "status": "active",
+    "previous_status": "active",
+    "occurred_at": "2026-03-16T14:05:00.000Z",
+    "customer_email": "ana.souza@example.com",
+    "amount": 4900,
+    "currency": "BRL"
+  }
+}
