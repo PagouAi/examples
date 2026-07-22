@@ -7,8 +7,11 @@ e a especificação OpenAPI. Ele **não** é um SDK e **não** é acoplado a nen
 usa um cliente HTTP idiomático com o mínimo de dependências, para que os mesmos padrões de integração
 se traduzam entre as linguagens.
 
-> **Status: beta.** Os fluxos estão sendo implementados linguagem por linguagem. Consulte a
-> [matriz de cobertura](docs/coverage-matrix.md) para ver o que já está disponível.
+> **Status: beta.** Todos os fluxos obrigatórios da V1 estão implementados, testados e com dono nas
+> sete linguagens — consulte a [matriz de cobertura](docs/coverage-matrix.md). O selo permanece até a
+> área de Exemplos na documentação entrar no ar e os times donos serem atribuídos; o
+> [checklist de rollout](docs/rollout-checklist.md) acompanha o que falta. Explore os guias na área de
+> **Exemplos** em [developer.pagou.ai/examples/overview](https://developer.pagou.ai/examples/overview).
 
 English: [README.md](README.md)
 

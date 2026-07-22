@@ -1,0 +1,99 @@
+name: Full CI (scheduled)
+
+# Periodic full run across every language, unconditionally — no path filter.
+# The pull_request CI is path-filtered so isolated changes stay cheap; this job
+# exercises all seven runtimes plus the shared gates on a schedule to catch
+# drift (upstream contract, runtime, or dependency changes) that no PR touched.
+on:
+  schedule:
+    # 06:00 UTC every Monday.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    uses: ./.github/workflows/reusable-secret-scan.yml
+
+  contract-check:
+    uses: ./.github/workflows/reusable-contract-check.yml
+
+  contract-test:
+    uses: ./.github/workflows/reusable-contract-test.yml
+
+  sandbox-smoke:
+    uses: ./.github/workflows/reusable-sandbox-smoke.yml
+    secrets:
+      PAGOU_SANDBOX_API_KEY: ${{ secrets.PAGOU_SANDBOX_API_KEY }}
+
+  coverage:
+    uses: ./.github/workflows/reusable-coverage.yml
+
+  typescript:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: typescript
+      versions: '["20", "24"]'
+
+  python:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: python
+      versions: '["3.10", "3.13"]'
+
+  php:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: php
+      versions: '["8.1", "8.3"]'
+
+  java:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: java
+      versions: '["17", "21"]'
+
+  dotnet:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: dotnet
+      versions: '["8.0.x", "9.0.x"]'
+
+  go:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: go
+      versions: '["1.21", "1.23"]'
+
+  ruby:
+    uses: ./.github/workflows/reusable-language.yml
+    with:
+      language: ruby
+      versions: '["3.2", "3.3"]'
+
+  full-ci-gate:
+    name: Full CI gate
+    needs: [secret-scan, contract-check, contract-test, typescript, python, php, java, dotnet, go, ruby]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify every job passed
+        run: |
+          fail=0
+          for r in "secret-scan=${{ needs.secret-scan.result }}" \
+                   "contract-check=${{ needs.contract-check.result }}" \
+                   "contract-test=${{ needs.contract-test.result }}" \
+                   "typescript=${{ needs.typescript.result }}" \
+                   "python=${{ needs.python.result }}" \
+                   "php=${{ needs.php.result }}" \
+                   "java=${{ needs.java.result }}" \
+                   "dotnet=${{ needs.dotnet.result }}" \
+                   "go=${{ needs.go.result }}" \
+                   "ruby=${{ needs.ruby.result }}"; do
+            name="${r%%=*}"; res="${r#*=}"
+            echo "$name: $res"
+            case "$res" in success|skipped) ;; *) fail=1 ;; esac
+          done
+          [ "$fail" -eq 0 ] || { echo "A scheduled full-CI job failed."; exit 1; }

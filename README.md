@@ -7,8 +7,11 @@ and the OpenAPI specification. It is **not** an SDK and it is **not** framework-
 example uses an idiomatic HTTP client with as few dependencies as possible, so the same integration
 patterns translate across languages.
 
-> **Status: beta.** Flows are being implemented language by language. See the
-> [coverage matrix](docs/coverage-matrix.md) for what is available today.
+> **Status: beta.** All mandatory V1 flows are implemented, tested and owned across the seven
+> languages — see the [coverage matrix](docs/coverage-matrix.md). The badge remains until the docs
+> Examples area lands and owner teams are assigned; the [rollout checklist](docs/rollout-checklist.md)
+> tracks what is left. Browse the guides in the **Examples** area at
+> [developer.pagou.ai/examples/overview](https://developer.pagou.ai/examples/overview).
 
 Português: [README.pt-BR.md](README.pt-BR.md)
 
