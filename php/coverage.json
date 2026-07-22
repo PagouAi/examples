@@ -1,0 +1,60 @@
+{
+  "language": "php",
+  "displayName": "PHP",
+  "runtime": {
+    "minVersion": "8.1",
+    "currentVersion": "8.4",
+    "notes": "Idiomatic HTTP client on Guzzle. Tested on PHP 8.1 through 8.4; the reference is developed against the current 8.x line."
+  },
+  "variants": ["raw-http"],
+  "sdk": null,
+  "flows": {
+    "payments": {
+      "state": "complete",
+      "variants": ["raw-http"],
+      "operations": [
+        "postTransactions",
+        "getTransactions",
+        "getTransactionsById",
+        "putTransactionsById",
+        "putTransactionsByIdRefund"
+      ],
+      "notes": "Pix + QR, voucher/boleto async, card via Payment Element -> pgct_ -> backend, 3DS next_action, full + partial refund, cursor pagination, sandbox status advance."
+    },
+    "checkout-links": {
+      "state": "complete",
+      "variants": ["raw-http"],
+      "operations": ["postCheckoutLinks"],
+      "notes": "The v2 contract exposes only POST; the returned data.url is the public identifier. There is no retrieve/list endpoint (not-applicable)."
+    },
+    "subscriptions": {
+      "state": "complete",
+      "variants": ["raw-http"],
+      "operations": [
+        "postCustomers",
+        "getCustomersById",
+        "postSubscriptions",
+        "getSubscriptionsById",
+        "postSubscriptionsByIdCancel"
+      ],
+      "notes": "Create/reuse customer, create/retrieve/cancel subscription. Renewal/failure/past-due/cancellation handled via the webhooks flow."
+    },
+    "transfers": {
+      "state": "complete",
+      "variants": ["raw-http"],
+      "operations": ["postTransfers", "getTransfersById", "postTransfersByIdCancel"],
+      "notes": "Create, retrieve/reconcile, cancel when status allows; final state via webhook."
+    },
+    "webhooks": {
+      "state": "complete",
+      "variants": ["raw-http"],
+      "families": ["transaction", "subscription", "transfer"],
+      "notes": "Dedupe by top-level event id, fast 2xx, offloaded reconciliation, redelivery ignored, business state changed only on confirmed events. The public contract exposes no signature; authenticity is established by reconciling against the API. The dedupe/state store is file-backed because PHP handles each request in a fresh process."
+    }
+  },
+  "tests": {
+    "framework": "phpunit",
+    "command": "composer test",
+    "coverageCommand": "composer coverage"
+  }
+}
