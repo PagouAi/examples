@@ -17,4 +17,5 @@ exclude = [
   "^https://api\\.sandbox\\.pagou\\.ai",
   "^https://api\\.pagou\\.ai",
   "mailto:",
+  "^https://www\\.npmjs\\.com",
 ]
