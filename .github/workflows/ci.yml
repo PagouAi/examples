@@ -114,7 +114,7 @@ jobs:
     uses: ./.github/workflows/reusable-language.yml
     with:
       language: python
-      versions: '["3.9", "3.13"]'
+      versions: '["3.10", "3.13"]'
 
   php:
     needs: changes
@@ -138,7 +138,7 @@ jobs:
     uses: ./.github/workflows/reusable-language.yml
     with:
       language: dotnet
-      versions: '["6.0.x", "8.0.x"]'
+      versions: '["8.0.x", "9.0.x"]'
 
   go:
     needs: changes
@@ -154,7 +154,7 @@ jobs:
     uses: ./.github/workflows/reusable-language.yml
     with:
       language: ruby
-      versions: '["3.1", "3.3"]'
+      versions: '["3.2", "3.3"]'
 
   # Single required status check: fails if any core gate failed.
   ci-gate:
