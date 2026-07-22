@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Runtime: dotenv loads .env in the examples; webrick backs the two tiny demo
+# servers (card Payment Element + webhook receiver). The HTTP client itself uses
+# only the standard library (net/http).
+gem "dotenv", "~> 3.1"
+gem "webrick", "~> 1.8"
+
+group :development, :test do
+  gem "minitest", "~> 5.25"
+  gem "rake", "~> 13.2"
+  gem "rubocop", "~> 1.68", require: false
+  gem "simplecov", "~> 0.22", require: false
+end
