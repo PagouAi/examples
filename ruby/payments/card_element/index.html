@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pagou Payment Element — card demo</title>
+    <script src="https://js.pagou.ai/payments/v3.js?v=3.0.0"></script>
+    <style>
+      :root {
+        --paper: #fbfaf7;
+        --surface: #ffffff;
+        --ink: #15171c;
+        --muted: #6b7280;
+        --hairline: rgba(21, 23, 28, 0.1);
+        --accent: #10935d;
+        --accent-bright: #1fc77e;
+        --danger: #c0392b;
+        --field: #ffffff;
+        --shadow: 0 1px 2px rgba(21, 23, 28, 0.04), 0 12px 32px rgba(21, 23, 28, 0.08);
+        --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #0c0e12;
+          --surface: #14171d;
+          --ink: #f3f4f6;
+          --muted: #9aa3af;
+          --hairline: rgba(243, 244, 246, 0.12);
+          --accent: #24d083;
+          --accent-bright: #4ce3a0;
+          --danger: #ff6b5e;
+          --field: #1b1f27;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1rem;
+        font-family: var(--sans);
+        color: var(--ink);
+        background:
+          radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%),
+          var(--paper);
+      }
+
+      .receipt {
+        width: 100%;
+        max-width: 25rem;
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+      .head { padding: 1.5rem 1.5rem 1.25rem; }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 0.9rem;
+      }
+      .merchant { font-size: 0.95rem; font-weight: 600; margin: 0; }
+      .amount {
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 2.6rem;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        margin: 0.5rem 0 0;
+      }
+      .amount .cur { font-size: 1.1rem; color: var(--muted); margin-right: 0.35rem; vertical-align: 0.55em; }
+
+      /* Perforated tear between header and body — the receipt signature. */
+      .tear {
+        position: relative;
+        height: 0;
+        border-top: 1.5px dashed var(--hairline);
+        margin: 0 1rem;
+      }
+      .tear::before, .tear::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 1px solid var(--hairline);
+        transform: translateY(-50%);
+      }
+      .tear::before { left: -1.75rem; }
+      .tear::after { right: -1.75rem; }
+
+      .body { padding: 1.25rem 1.5rem 1.5rem; }
+      .field-label {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      #card-element {
+        background: var(--field);
+        border: 1px solid var(--hairline);
+        border-radius: 10px;
+        padding: 0.85rem 0.9rem;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      #card-element:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+      }
+
+      button {
+        width: 100%;
+        margin-top: 1.1rem;
+        padding: 0.85rem 1rem;
+        border: 0;
+        border-radius: 10px;
+        background: var(--ink);
+        color: var(--surface);
+        font-family: var(--sans);
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.08s ease, opacity 0.15s ease;
+      }
+      button:hover:not([disabled]) { transform: translateY(-1px); }
+      button:active:not([disabled]) { transform: translateY(0); }
+      button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+      button[disabled] { opacity: 0.55; cursor: default; }
+
+      /* Status stub — flips through the payment states. */
+      .stub {
+        margin: 1.1rem -1.5rem -1.5rem;
+        padding: 0.9rem 1.5rem;
+        border-top: 1.5px dashed var(--hairline);
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--muted);
+        transition: color 0.2s ease;
+      }
+      .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: currentColor; flex: none;
+      }
+      .stub[data-state="processing"] { color: var(--accent); }
+      .stub[data-state="processing"] .dot { animation: pulse 1s ease-in-out infinite; }
+      .stub[data-state="action"] { color: var(--accent); }
+      .stub[data-state="success"] { color: var(--accent); }
+      .stub[data-state="error"] { color: var(--danger); }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+      .detail {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--muted);
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0.6rem 0 0;
+      }
+
+      /* PAGOU stamp — the one bold moment, on success only. */
+      .stamp {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        opacity: 0;
+      }
+      .stamp span {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 2.4rem;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        border: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 0.35rem 1rem;
+        transform: rotate(-11deg) scale(1.3);
+      }
+      .receipt.paid { position: relative; }
+      .receipt.paid .stamp { animation: stamp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s both; }
+      @keyframes stamp {
+        from { opacity: 0; transform: scale(1.4); }
+        to { opacity: 0.92; transform: scale(1); }
+      }
+
+      .note {
+        max-width: 25rem;
+        margin: 1rem auto 0;
+        font-size: 0.72rem;
+        line-height: 1.5;
+        color: var(--muted);
+        text-align: center;
+      }
+      .note code { font-family: var(--mono); }
+
+      @media (max-width: 400px) { .amount { font-size: 2.1rem; } }
+      @media (prefers-reduced-motion: reduce) {
+        *, .receipt, .stamp span { animation: none !important; transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="receipt" id="receipt" aria-labelledby="merchant">
+        <div class="head">
+          <p class="eyebrow">Pagou · secure checkout</p>
+          <p class="merchant" id="merchant">Pro Plan — monthly</p>
+          <p class="amount"><span class="cur">R$</span>49<span aria-hidden="true">.00</span></p>
+        </div>
+        <div class="tear" aria-hidden="true"></div>
+        <div class="body">
+          <label class="field-label" for="card-element">Card details</label>
+          <div id="card-element"></div>
+          <button id="pay" type="button">Pay R$49.00</button>
+          <div class="stub" id="stub" data-state="ready" role="status" aria-live="polite">
+            <span class="dot" aria-hidden="true"></span>
+            <span id="stub-text">Ready — enter a test card</span>
+          </div>
+        </div>
+        <div class="stamp" aria-hidden="true"><span>PAGOU</span></div>
+      </section>
+      <p class="note">
+        Card data is captured by the hosted Payment Element and exchanged for a
+        <code>pgct_</code> token. Your secret API key stays on the server — it is
+        never present in this page.
+      </p>
+    </main>
+
+    <script>
+      // The publishable key (pk_test_* in sandbox) is injected by the server.
+      // The secret API key is NEVER present in browser code.
+      const PUBLISHABLE_KEY = "__PUBLISHABLE_KEY__";
+      const receipt = document.getElementById("receipt");
+      const stub = document.getElementById("stub");
+      const stubText = document.getElementById("stub-text");
+      const payButton = document.getElementById("pay");
+
+      function setStatus(state, text) {
+        stub.dataset.state = state;
+        stubText.textContent = text;
+      }
+
+      Pagou.setEnvironment("sandbox");
+      const elements = Pagou.elements({ publicKey: PUBLISHABLE_KEY, locale: "en" });
+      const card = elements.create("card", { theme: "default" });
+      card.mount("#card-element");
+      card.on("change", ({ errors }) => {
+        if (errors && errors.length) setStatus("error", errors[0].message);
+        else if (stub.dataset.state === "error") setStatus("ready", "Ready — enter a test card");
+      });
+
+      payButton.addEventListener("click", async () => {
+        payButton.disabled = true; // Prevent duplicate submits while in flight.
+        setStatus("processing", "Processing payment…");
+        try {
+          const result = await elements.submit({
+            mode: "payment",
+            // The SDK tokenizes the card and calls back with the pgct_ token.
+            createTransaction: async (tokenData) => {
+              const response = await fetch("/api/pay", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token: tokenData.token }),
+              });
+              if (!response.ok) throw new Error("The charge was declined. Try another card.");
+              const payload = await response.json();
+              const data = payload.data ?? payload;
+              // 3DS: reflect the challenge step in the UI.
+              if (data && data.status === "three_ds_required") {
+                setStatus("action", "Confirming with your bank…");
+              }
+              // Keep id/status/next_action intact so the SDK can continue 3DS.
+              return data;
+            },
+          });
+
+          const ok = ["succeeded", "completed", "paid", "captured"].includes(result.status);
+          if (ok) {
+            setStatus("success", "Paid — confirmation pending webhook");
+            receipt.classList.add("paid");
+          } else if (result.status === "canceled") {
+            setStatus("ready", "Canceled — you can try again");
+          } else {
+            setStatus("error", "Not completed: " + result.status);
+          }
+        } catch (error) {
+          setStatus("error", error && error.message ? error.message : "Something went wrong.");
+        } finally {
+          payButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
