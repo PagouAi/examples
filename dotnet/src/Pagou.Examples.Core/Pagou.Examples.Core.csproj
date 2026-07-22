@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Pagou.Examples.Core</RootNamespace>
+    <AssemblyName>Pagou.Examples.Core</AssemblyName>
+  </PropertyGroup>
+
+</Project>
