@@ -1,0 +1,66 @@
+{
+    "name": "pagou/examples-php",
+    "description": "Runnable PHP reference examples for the Pagou API v2 core flows.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.8",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "files": [
+            "src/Errors.php"
+        ],
+        "psr-4": {
+            "Pagou\\Examples\\": "src/",
+            "Pagou\\Examples\\Payments\\": "payments/",
+            "Pagou\\Examples\\CheckoutLinks\\": "checkout-links/",
+            "Pagou\\Examples\\Subscriptions\\": "subscriptions/",
+            "Pagou\\Examples\\Transfers\\": "transfers/",
+            "Pagou\\Examples\\Webhooks\\": "webhooks/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pagou\\Examples\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-text --coverage-clover coverage/clover.xml",
+        "pay:pix": "@php payments/raw/create_pix.php",
+        "pay:voucher": "@php payments/raw/create_voucher.php",
+        "pay:retrieve": "@php payments/raw/retrieve.php",
+        "pay:reconcile": "@php payments/raw/reconcile.php",
+        "pay:refund": "@php payments/raw/refund.php",
+        "pay:list": "@php payments/raw/list.php",
+        "pay:card": "@php payments/raw/create_card.php",
+        "pay:card:server": "@php -S localhost:3000 payments/card-element/server.php",
+        "checkout:create": "@php checkout-links/raw/create.php",
+        "subs:demo": "@php subscriptions/raw/lifecycle.php",
+        "transfers:demo": "@php transfers/raw/lifecycle.php",
+        "webhooks:server": "@php -S localhost:4000 webhooks/server.php"
+    },
+    "scripts-descriptions": {
+        "pay:pix": "Create a Pix charge and print the copy-and-paste QR payload.",
+        "pay:voucher": "Create a voucher/boleto charge with async instructions.",
+        "pay:retrieve": "Retrieve a transaction by its public UUID.",
+        "pay:reconcile": "Reconcile a transaction and print the fulfillment decision.",
+        "pay:refund": "Full or partial refund (idempotent).",
+        "pay:list": "List transactions with cursor pagination.",
+        "pay:card": "Charge a pgct_ card token produced by the Payment Element.",
+        "pay:card:server": "Serve the browser Payment Element card demo.",
+        "checkout:create": "Create a hosted checkout link and store its public URL.",
+        "subs:demo": "Create/reuse a customer and run the subscription lifecycle.",
+        "transfers:demo": "Create, reconcile and cancel a Pix Out transfer.",
+        "webhooks:server": "Run the webhook receiver for the three envelope families."
+    }
+}
