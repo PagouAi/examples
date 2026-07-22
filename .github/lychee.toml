@@ -8,7 +8,7 @@ timeout = 20
 accept = [200, 206, 429]
 
 # node_modules and vendored dependencies carry their own (often broken) links.
-exclude_path = ["node_modules", "vendor", "**/node_modules", "**/vendor"]
+exclude_path = ["node_modules", "vendor"]
 
 # The docs Examples area (developer.pagou.ai/examples/*) ships in the docs
 # monorepo; exclude it here so this repo does not fail before that deploy lands.
