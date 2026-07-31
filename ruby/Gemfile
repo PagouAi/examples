@@ -9,7 +9,7 @@ gem "dotenv", "~> 3.1"
 gem "webrick", "~> 1.8"
 
 group :development, :test do
-  gem "minitest", "~> 5.25"
+  gem "minitest", "~> 6.0"
   gem "rake", "~> 13.2"
   gem "rubocop", "~> 1.68", require: false
   gem "simplecov", "~> 0.22", require: false
