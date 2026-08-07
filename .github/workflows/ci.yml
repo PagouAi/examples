@@ -31,7 +31,7 @@ jobs:
       go: ${{ steps.filter.outputs.go }}
       ruby: ${{ steps.filter.outputs.ruby }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
         id: filter
         with:
