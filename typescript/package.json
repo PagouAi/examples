@@ -30,7 +30,7 @@
     "webhooks:server": "tsx webhooks/server.ts"
   },
   "dependencies": {
-    "@pagouai/api-sdk": "^0.2.9",
+    "@pagouai/api-sdk": "^0.2.11",
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
