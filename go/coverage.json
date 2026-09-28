@@ -49,7 +49,7 @@
       "state": "complete",
       "variants": ["raw-http"],
       "families": ["transaction", "subscription", "transfer"],
-      "notes": "Dedupe by top-level event id, fast 2xx, offloaded reconciliation, redelivery ignored, business state changed only on confirmed events. The public contract exposes no signature; authenticity is established by reconciling against the API."
+      "notes": "Dedupe by top-level event id, fast 2xx, offloaded reconciliation, redelivery ignored, business state changed only on confirmed events. When secret_token is non-empty, delivery includes X-Pagou-Timestamp and X-Pagou-Signature (sha256= HMAC-SHA256 of timestamp.rawBody). Empty secret and notify_url postbacks stay unsigned. Reconcile via GET remains the fulfillment check. HMAC verification example: typescript/webhooks."
     }
   },
   "tests": {

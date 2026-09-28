@@ -1,8 +1,9 @@
-# Parsing for the three webhook envelope families. The public contract exposes
-# no signature header, so authenticity is established downstream by reconciling
-# against the API — never by trusting these bodies. Every family carries a
-# top-level `id` that is THE dedupe key (a resource emits many events over
-# time, so deduping by resource id would drop distinct events).
+# Parsing for the three webhook envelope families. Deliveries with a non-empty
+# secret_token include X-Pagou-Signature (HMAC-SHA256 over timestamp.rawBody).
+# Verify that on the raw body, then reconcile against the API before changing
+# business state. Every family carries a top-level `id` that is THE dedupe key
+# (a resource emits many events over time, so deduping by resource id would
+# drop distinct events).
 
 from dataclasses import dataclass
 from typing import Any, Literal, Optional, Union

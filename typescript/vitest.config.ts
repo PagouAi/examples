@@ -11,7 +11,13 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "json"],
       reportsDirectory: "coverage",
-      include: ["src/lib/**/*.ts", "webhooks/handlers.ts", "webhooks/store.ts", "webhooks/processor.ts"],
+      include: [
+        "src/lib/**/*.ts",
+        "webhooks/handlers.ts",
+        "webhooks/store.ts",
+        "webhooks/processor.ts",
+        "webhooks/verify.ts",
+      ],
       exclude: ["src/lib/config.ts", "src/lib/format.ts", "src/lib/sdk.ts"],
       thresholds: {
         statements: 80,

@@ -29,6 +29,8 @@ Each language mirrors the same set of core flows:
 - **Transfers (Pix Out)** — create, retrieve and reconcile a transfer; cancel when the status
   allows; reach the final state via webhook.
 - **Webhooks** — real handlers for the transaction, subscription and transfer event families.
+  Endpoints with a non-empty `secret_token` receive HMAC-signed deliveries (`X-Pagou-Signature`);
+  the TypeScript receiver verifies that signature. Reconcile with GET before fulfilling.
 
 ## Languages
 

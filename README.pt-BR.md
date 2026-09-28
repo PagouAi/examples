@@ -29,6 +29,8 @@ Cada linguagem espelha o mesmo conjunto de fluxos principais:
 - **Transferências (Pix Out)** — criar, consultar e reconciliar uma transferência; cancelar quando o
   status permitir; chegar ao estado final via webhook.
 - **Webhooks** — handlers reais para as famílias de eventos de transação, assinatura e transferência.
+  Endpoints com `secret_token` não vazio recebem entregas com HMAC (`X-Pagou-Signature`);
+  o exemplo TypeScript verifica esse HMAC. Reconcilie com GET antes de confirmar o pagamento.
 
 ## Linguagens
 

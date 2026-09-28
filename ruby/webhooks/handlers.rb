@@ -18,11 +18,11 @@ module Pagou
     # Routes a raw webhook body to one of the three families and extracts the
     # dedupe id, event type and resource id. Returns a WebhookEvent, or a
     # { error: ... } hash so the server can answer with the documented body.
-    # The public contract exposes no signature header, so authenticity is
-    # established downstream by reconciling against the API — never by trusting
-    # these bodies. Every family carries a top-level `id` that is THE dedupe key
-    # (a resource emits many events over time, so deduping by resource id would
-    # drop distinct events).
+    # Deliveries with a non-empty secret_token include X-Pagou-Signature
+    # (HMAC-SHA256 over timestamp.rawBody). Verify that on the raw body, then
+    # reconcile against the API before changing business state. Every family
+    # carries a top-level `id` that is THE dedupe key (a resource emits many
+    # events over time, so deduping by resource id would drop distinct events).
     def self.parse_webhook(body)
       return { error: "unknown_envelope" } unless body.is_a?(Hash)
 

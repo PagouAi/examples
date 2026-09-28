@@ -101,8 +101,10 @@ Each language ships an automated test suite exercised in CI.
 
 All languages handle the three current envelope families end to end: dedupe by top-level event id,
 respond 2xx fast, offload reconciliation, ignore redelivery, and change business state only on
-confirmed events. The public contract exposes no signature; authenticity is established by reconciling
-against the API.
+confirmed events. When `secret_token` is non-empty, delivery includes `X-Pagou-Timestamp` and
+`X-Pagou-Signature` (`sha256=` HMAC-SHA256 of `` `${timestamp}.${rawBody}` ``). Empty secrets and
+`notify_url` postbacks stay unsigned. Reconcile via GET before fulfilling. The TypeScript receiver
+verifies the signature when `PAGOU_WEBHOOK_SECRET` is set.
 
 | Family | Match | Discriminator |
 | --- | --- | --- |

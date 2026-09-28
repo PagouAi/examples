@@ -74,8 +74,11 @@ Real handlers for the three current envelope families:
 - **transfers** — envelope with `type` and `data.object`.
 
 All handlers respond `2xx` quickly, dedupe by event ID, offload slow work, ignore already-processed
-redeliveries, validate authenticity where the public contract supports it, and update business state
-only on a confirmed webhook or server-side reconciliation.
+redeliveries, and update business state only after reconciling with the API. When the webhook
+endpoint has a non-empty `secret_token`, the delivery also includes `X-Pagou-Timestamp` and
+`X-Pagou-Signature` (HMAC-SHA256 of `` `${timestamp}.${rawBody}` ``, prefix `sha256=`). The TypeScript
+receiver verifies that signature when `PAGOU_WEBHOOK_SECRET` is set. `notify_url` postbacks without
+a secret stay unsigned. See [`typescript/webhooks/README.md`](../typescript/webhooks/README.md).
 
 ## Environments
 

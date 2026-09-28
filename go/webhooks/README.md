@@ -53,9 +53,45 @@ so deduping by resource id would drop distinct events.
 - **State change only on confirmed** — `IsConfirmedStateChange` gates which events trigger a
   reconcile; informational events (`transaction.created`, `subscription.trial_will_end`) never
   change state.
-- **Authenticity** — the public contract exposes **no signature header**. Authenticity is
-  established by reconciling against the API (`GET /v2/{resource}/{id}`) — the webhook is a hint,
-  the API is the source of truth. Do not fulfill from the event body alone.
+- **Signature** — a webhook endpoint with a non-empty `secret_token` is delivered with
+  `X-Pagou-Timestamp` and `X-Pagou-Signature`. An empty secret omits those headers. `notify_url`
+  postbacks without `secret_token` stay unsigned. Details are in [Outbound signature](#outbound-signature).
+- **Reconcile** — fulfill only after `GET /v2/{resource}/{id}`. The signature authenticates the
+  delivery; the API response is the source of truth for the resource.
+
+## Outbound signature
+
+Pagou signs a registered webhook endpoint only when its `secret_token` is a non-empty string.
+
+| Header | Value |
+| --- | --- |
+| `X-Pagou-Timestamp` | Unix time in seconds, as a decimal string. |
+| `X-Pagou-Signature` | `sha256=` followed by the lowercase hex HMAC-SHA256 digest. |
+| `Content-Type` | `application/json` on every delivery. |
+| `User-Agent` | `Pagou.ai - Webhook Service` on every delivery. |
+
+The MAC input is the UTF-8 string `` `${timestamp}.${rawBody}` `` and the key is `secret_token`.
+`rawBody` is the exact HTTP body. When the sender holds an object it signs `JSON.stringify(object)`.
+A body that is already a string is signed as that string. Verify those bytes before parsing JSON.
+
+Compare with a timing-safe equality on equal-length buffers. Reject a timestamp more than 5 minutes
+from your clock in either direction. The sender does not enforce that window.
+
+An empty, null, or omitted `secret_token` means the two `X-Pagou-*` headers are absent. A
+per-transaction or per-transfer `notify_url`, and any other postback queued without `secret_token`,
+stays unsigned.
+
+Set `secret_token` on the webhook endpoint in the dashboard webhook configuration, or through the
+webhook API when you create or update the endpoint. Outbound `X-Pagou-*` headers are added by the
+delivery service. They are not request operations in
+[`shared/contracts/openapi-v2.json`](../../shared/contracts/openapi-v2.json).
+
+**Warning:** do not implement the scheme published at [docs.pagou.com.br](https://docs.pagou.com.br).
+That site documents a different product: timestamp and payload concatenated with no `.`, no `sha256=`
+prefix, and the API key as the HMAC secret.
+
+Apply this check on the raw body before trusting the envelope. The TypeScript receiver
+([`verify.ts`](../../typescript/webhooks/verify.ts)) does that when `PAGOU_WEBHOOK_SECRET` is set.
 
 ## Minimal persistence
 
