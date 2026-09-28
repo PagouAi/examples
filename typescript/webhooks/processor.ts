@@ -15,7 +15,7 @@ const RESOURCE_PATH: Record<WebhookEvent["family"], string> = {
  * Business state changes only on a confirmed event, and only after reconciling
  * against the API — the webhook body is a hint, the API is the source of truth.
  */
-export async function processEvent(event: WebhookEvent, client = new PagouHttpClient()): Promise<void> {
+export async function processEvent(event: WebhookEvent, client?: PagouHttpClient): Promise<void> {
   if (!isConfirmedStateChange(event.eventType)) {
     logger.info(`Ignoring non-confirming event ${event.eventType} (${event.id})`);
     return;
@@ -25,8 +25,9 @@ export async function processEvent(event: WebhookEvent, client = new PagouHttpCl
     return;
   }
 
+  const http = client ?? new PagouHttpClient();
   try {
-    const { data } = await client.requestData<{ status: string }>({
+    const { data } = await http.requestData<{ status: string }>({
       method: "GET",
       path: `${RESOURCE_PATH[event.family]}/${event.resourceId}`,
     });

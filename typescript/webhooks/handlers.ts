@@ -1,8 +1,8 @@
-// Parsing for the three webhook envelope families. The public contract exposes
-// no signature header, so authenticity is established downstream by reconciling
-// against the API — never by trusting these bodies. Every family carries a
-// top-level `id` that is THE dedupe key (a resource emits many events over
-// time, so deduping by resource id would drop distinct events).
+// Parsing for the three webhook envelope families. When the webhook subscription
+// has a Security Token, verify X-Pagou-Signature on the raw body before parsing,
+// then reconcile against the API before changing business state. Every family
+// carries a top-level `id` that is THE dedupe key (a resource emits many events
+// over time, so deduping by resource id would drop distinct events).
 
 export type WebhookFamily = "transaction" | "subscription" | "transfer";
 

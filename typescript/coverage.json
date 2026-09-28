@@ -49,7 +49,7 @@
       "state": "complete",
       "variants": ["raw-http"],
       "families": ["transaction", "subscription", "transfer"],
-      "notes": "Dedupe by top-level event id, fast 2xx, offloaded reconciliation, redelivery ignored, business state changed only on confirmed events. The public contract exposes no signature; authenticity is established by reconciling against the API."
+      "notes": "Dedupe by top-level event id, fast 2xx, offloaded reconciliation, redelivery ignored, business state changed only on confirmed events. When the webhook subscription has a Security Token, the POST includes X-Pagou-Timestamp and X-Pagou-Signature (sha256= HMAC-SHA256 of timestamp.rawBody). The TypeScript receiver verifies that when PAGOU_SECURITY_TOKEN is set. With no Security Token, those headers are omitted. notify_url postbacks stay unsigned. Reconcile via GET remains the fulfillment check."
     }
   },
   "tests": {

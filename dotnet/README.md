@@ -51,7 +51,7 @@ export the variables in your shell instead of using a file.
 | [Checkout links](checkout-links/README.md) | `dotnet run --project checkout-links` | Create a hosted link and store its public URL. |
 | [Subscriptions](subscriptions/README.md) | `dotnet run --project subscriptions` | Create/reuse customer, create/retrieve/cancel a subscription. |
 | [Transfers (Pix Out)](transfers/README.md) | `dotnet run --project transfers` | Create, retrieve/reconcile, cancel; final state via webhook. |
-| [Webhooks](webhooks/README.md) | `dotnet run --project webhooks` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. |
+| [Webhooks](webhooks/README.md) | `dotnet run --project webhooks` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. Security Token HMAC is documented in the webhook README. |
 
 Every flow directory has its own README with the input payload, the relevant response, the expected
 error and recovery path, and links to the matching guide and OpenAPI operation on

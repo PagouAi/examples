@@ -51,7 +51,7 @@ cp .env.example .env   # then set PAGOU_API_TOKEN
 | [Checkout links](checkout-links/README.md) | `composer checkout:create` | Create a hosted link and store its public URL. |
 | [Subscriptions](subscriptions/README.md) | `composer subs:demo` | Create/reuse customer, create/retrieve/cancel a subscription. |
 | [Transfers (Pix Out)](transfers/README.md) | `composer transfers:demo` | Create, retrieve/reconcile, cancel; final state via webhook. |
-| [Webhooks](webhooks/README.md) | `composer webhooks:server` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. |
+| [Webhooks](webhooks/README.md) | `composer webhooks:server` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. Security Token HMAC is documented in the webhook README. |
 
 Every flow directory has its own README with the input payload, the relevant response, the expected
 error and recovery path, and links to the matching guide and OpenAPI operation on

@@ -50,7 +50,7 @@ dependency. Run the commands from the `java/` directory so `.env` is found.
 | [Checkout links](checkout-links/README.md) | `mvn -q compile exec:java@checkout-create` | Create a hosted link and store its public URL. |
 | [Subscriptions](subscriptions/README.md) | `mvn -q compile exec:java@subs-demo` | Create/reuse customer, create/retrieve/cancel a subscription. |
 | [Transfers (Pix Out)](transfers/README.md) | `mvn -q compile exec:java@transfers-demo` | Create, retrieve/reconcile, cancel; final state via webhook. |
-| [Webhooks](webhooks/README.md) | `mvn -q compile exec:java@webhooks-server` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. |
+| [Webhooks](webhooks/README.md) | `mvn -q compile exec:java@webhooks-server` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. Security Token HMAC is documented in the webhook README. |
 
 Every flow directory has its own README with the input payload, the relevant response, the expected
 error and recovery path, and links to the matching guide and OpenAPI operation on

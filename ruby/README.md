@@ -48,7 +48,7 @@ cp .env.example .env   # then set PAGOU_API_TOKEN
 | [Checkout links](checkout-links/README.md) | `ruby checkout-links/create.rb` | Create a hosted link and store its public URL. |
 | [Subscriptions](subscriptions/README.md) | `ruby subscriptions/lifecycle.rb` | Create/reuse customer, create/retrieve/cancel a subscription. |
 | [Transfers (Pix Out)](transfers/README.md) | `ruby transfers/lifecycle.rb` | Create, retrieve/reconcile, cancel; final state via webhook. |
-| [Webhooks](webhooks/README.md) | `ruby webhooks/server.rb` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. |
+| [Webhooks](webhooks/README.md) | `ruby webhooks/server.rb` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. Security Token HMAC is documented in the webhook README. |
 
 Run scripts from the `ruby/` directory (they load `lib/pagou` and `.env` relative to it). Every flow
 directory has its own README with the input payload, the relevant response, the expected error and
