@@ -102,10 +102,6 @@ receiver that must accept those calls.
 Keep reconciling with `GET /v2/{resource}/{id}` before you fulfill. The signature shows the POST
 came from Pagou. The API response is still what you fulfill against.
 
-**Warning:** do not use the scheme at [docs.pagou.com.br](https://docs.pagou.com.br). That site
-documents a different product: the timestamp and body are concatenated with no `.`, there is no
-`sha256=` prefix, and the HMAC key is the API key.
-
 The working check is [`typescript/webhooks/verify.ts`](../../typescript/webhooks/verify.ts). It
 reads the raw body before `JSON.parse` when `PAGOU_SECURITY_TOKEN` is set.
 

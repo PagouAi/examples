@@ -109,10 +109,6 @@ These headers are on the webhook POST Pagou sends to your URL. This repository's
 does not describe webhook POSTs, so the headers are documented here rather than added to
 [`shared/contracts/openapi-v2.json`](../../shared/contracts/openapi-v2.json).
 
-**Warning:** do not use the scheme at [docs.pagou.com.br](https://docs.pagou.com.br). That site
-documents a different product: the timestamp and body are concatenated with no `.`, there is no
-`sha256=` prefix, and the HMAC key is the API key.
-
 ### This receiver
 
 `verify.ts` runs before `JSON.parse`. `PAGOU_SECURITY_TOKEN` must equal the webhook's Security Token.
@@ -159,7 +155,7 @@ you actually fulfill against. Back both with a database in production.
 `npm test` covers envelope routing for all three families, the missing-id rejection, dedupe, the
 confirmed-vs-informational gate, and that `processEvent` reconciles and updates state only on a
 confirmed event ([`../tests/webhooks.test.ts`](../tests/webhooks.test.ts)). Signature tests cover a
-valid MAC over the raw body, a different Security Token, missing headers, a stale timestamp, the
-[docs.pagou.com.br](https://docs.pagou.com.br) scheme, an HTTP POST that is verified before
+valid MAC over the raw body, a different Security Token, missing headers, a stale timestamp, an
+incorrect scheme (no dot, no `sha256=` prefix), an HTTP POST that is verified before
 `JSON.parse`, and a GET reconcile after a valid signature
 ([`../tests/webhook-signature.test.ts`](../tests/webhook-signature.test.ts)).

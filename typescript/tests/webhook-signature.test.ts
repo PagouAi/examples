@@ -73,7 +73,7 @@ describe("verifyWebhookSignature", () => {
     expect(verify({ timestamp, signature })).toEqual({ ok: false, error: "invalid_signature" });
   });
 
-  it("rejects the docs.pagou.com.br scheme (no dot, no sha256= prefix)", () => {
+  it("rejects an incorrect scheme (no dot between timestamp and body, no sha256= prefix)", () => {
     const timestamp = String(NOW);
     const hex = createHmac("sha256", SECURITY_TOKEN)
       .update(timestamp + RAW_BODY, "utf8")
