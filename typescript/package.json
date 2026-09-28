@@ -34,7 +34,7 @@
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^2.1.8",
     "tsx": "^4.23.5",
     "typescript": "^7.0.2",
