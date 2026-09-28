@@ -29,6 +29,10 @@ Each language mirrors the same set of core flows:
 - **Transfers (Pix Out)** — create, retrieve and reconcile a transfer; cancel when the status
   allows; reach the final state via webhook.
 - **Webhooks** — real handlers for the transaction, subscription and transfer event families.
+  A webhook subscription with a **Security Token** (dashboard: **Settings → Integrations**, create
+  or edit the webhook) receives HMAC-signed POSTs (`X-Pagou-Signature`). Leave the field blank to
+  generate one automatically. The TypeScript receiver verifies that signature. Reconcile with GET
+  before fulfilling. `notify_url` postbacks without a Security Token stay unsigned.
 
 ## Languages
 

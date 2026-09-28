@@ -13,7 +13,11 @@ slow work, and change business state only on a confirmed event after reconciling
 ## Prerequisites
 
 Ruby 3.2+ and a sandbox `PAGOU_API_TOKEN` (reconciliation calls the API). Configure
-`PAGOU_WEBHOOK_URL` in your dashboard to point at this receiver's public URL.
+`PAGOU_WEBHOOK_URL` under **Settings → Integrations** so it points at this receiver's public URL.
+To sign those POSTs, set a **Security Token** on the webhook (create or edit). Leave the field
+blank to generate one automatically (“Leave blank to generate automatically.”), then store the
+value in `PAGOU_SECURITY_TOKEN`.
+
 **Sandbox dependency:** reconciliation reads live sandbox resources.
 
 ## Run command
@@ -54,9 +58,56 @@ so deduping by resource id would drop distinct events.
 - **State change only on confirmed** — `confirmed_state_change?` gates which events trigger a
   reconcile; informational events (`transaction.created`, `subscription.trial_will_end`) never
   change state.
-- **Authenticity** — the public contract exposes **no signature header**. Authenticity is
-  established by reconciling against the API (`GET /v2/{resource}/{id}`) — the webhook is a hint,
-  the API is the source of truth. Do not fulfill from the event body alone.
+- **Signature** — when the webhook subscription has a **Security Token**, verify `X-Pagou-Signature`
+  on the exact HTTP body before parsing JSON. With no Security Token, the signature headers are
+  absent. A `notify_url` postback stays unsigned. See [Verifying the signature](#verifying-the-signature).
+- **Reconcile** — fulfill only after `GET /v2/{resource}/{id}`. The signature authenticates the POST;
+  the API response is the source of truth for the resource. Do not fulfill from the event body alone.
+
+## Verifying the signature
+
+Pagou signs a webhook POST when that webhook subscription has a **Security Token**.
+
+In the dashboard, open **Settings → Integrations**, then create or edit the webhook. Set the
+Security Token, or leave it blank to generate one automatically (“Leave blank to generate
+automatically.”). Put the same value in `PAGOU_SECURITY_TOKEN` on your server. The TypeScript
+receiver in this repository reads that variable.
+
+When a Security Token is configured, the POST includes:
+
+| Header | Value |
+| --- | --- |
+| `X-Pagou-Timestamp` | Unix time in seconds, as a decimal string. |
+| `X-Pagou-Signature` | `sha256=` followed by the lowercase hex HMAC-SHA256 digest. |
+| `Content-Type` | `application/json` |
+| `User-Agent` | `Pagou.ai - Webhook Service` |
+
+`Content-Type` and `User-Agent` are on every webhook POST. `X-Pagou-Timestamp` and
+`X-Pagou-Signature` are present only when a Security Token is configured. With no Security Token,
+those two headers are omitted.
+
+The signature is HMAC-SHA256 over the UTF-8 string `` `${timestamp}.${rawBody}` ``, using the
+Security Token as the key. `rawBody` is the exact HTTP body. When the payload is a JSON object,
+Pagou signs `JSON.stringify` of that object (no extra whitespace). Verify those bytes before you
+parse JSON. Parsing and serializing again changes the signature.
+
+Compare `X-Pagou-Signature` to the expected `sha256=<hex>` with a timing-safe compare of equal-length
+buffers. Reject a timestamp more than 5 minutes from your clock, in either direction. That replay
+window is your receiver's check.
+
+A `notify_url` on a transaction or transfer, and any other postback that is not a webhook
+subscription with a Security Token, stays **unsigned**. Leave `PAGOU_SECURITY_TOKEN` unset on a
+receiver that must accept those calls.
+
+Keep reconciling with `GET /v2/{resource}/{id}` before you fulfill. The signature shows the POST
+came from Pagou. The API response is still what you fulfill against.
+
+**Warning:** do not use the scheme at [docs.pagou.com.br](https://docs.pagou.com.br). That site
+documents a different product: the timestamp and body are concatenated with no `.`, there is no
+`sha256=` prefix, and the HMAC key is the API key.
+
+The working check is [`typescript/webhooks/verify.ts`](../../typescript/webhooks/verify.ts). It
+reads the raw body before `JSON.parse` when `PAGOU_SECURITY_TOKEN` is set.
 
 ## Minimal persistence
 

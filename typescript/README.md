@@ -38,7 +38,8 @@ cp .env.example .env   # then set PAGOU_API_TOKEN
 | `PAGOU_ENVIRONMENT` | no | `sandbox` (default) or `production`. |
 | `PAGOU_BASE_URL` | no | Overrides the base URL derived from the environment. |
 | `PAGOU_PUBLISHABLE_KEY` | card demo | `pk_test_*` publishable key for the Payment Element (browser-safe). |
-| `PAGOU_WEBHOOK_URL` | webhooks | Your public HTTPS endpoint for deliveries. |
+| `PAGOU_WEBHOOK_URL` | webhooks | Your public HTTPS endpoint for webhook POSTs. |
+| `PAGOU_SECURITY_TOKEN` | webhooks | Security Token from Settings → Integrations (webhook create/edit). When set, the receiver requires `X-Pagou-Signature`. |
 | `PAGOU_TIMEOUT_MS` / `PAGOU_MAX_RETRIES` | no | Client tuning (defaults `30000` / `2`). |
 
 ## Flows
@@ -49,7 +50,7 @@ cp .env.example .env   # then set PAGOU_API_TOKEN
 | [Checkout links](checkout-links/README.md) | `npm run checkout:create` | Create a hosted link and store its public URL. |
 | [Subscriptions](subscriptions/README.md) | `npm run subs:demo` | Create/reuse customer, create/retrieve/cancel a subscription. |
 | [Transfers (Pix Out)](transfers/README.md) | `npm run transfers:demo` | Create, retrieve/reconcile, cancel; final state via webhook. |
-| [Webhooks](webhooks/README.md) | `npm run webhooks:server` | The three envelope families, dedupe, fast 2xx, offloaded reconciliation. |
+| [Webhooks](webhooks/README.md) | `npm run webhooks:server` | The three envelope families, Security Token HMAC, dedupe, fast 2xx, offloaded reconciliation. |
 
 Every flow directory has its own README with the input payload, the relevant response, the expected
 error and recovery path, and links to the matching guide and OpenAPI operation on

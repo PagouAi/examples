@@ -29,6 +29,11 @@ Cada linguagem espelha o mesmo conjunto de fluxos principais:
 - **Transferências (Pix Out)** — criar, consultar e reconciliar uma transferência; cancelar quando o
   status permitir; chegar ao estado final via webhook.
 - **Webhooks** — handlers reais para as famílias de eventos de transação, assinatura e transferência.
+  Um webhook com **Token de Segurança** (painel: **Settings → Integrations**, criar ou editar o
+  webhook) recebe POSTs assinados com HMAC (`X-Pagou-Signature`). Deixe em branco para gerar
+  automaticamente (“Deixe em branco para gerar automaticamente.”). O exemplo TypeScript verifica
+  essa assinatura. Reconcilie com GET antes de confirmar o pagamento. `notify_url` e postbacks de
+  transação sem Token de Segurança continuam sem assinatura.
 
 ## Linguagens
 
